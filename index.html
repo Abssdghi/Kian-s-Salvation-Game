@@ -1,34 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Kian's Salvation</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="logo.ico">
 </head>
+
 <body>
     <div id="game-container">
-        <div id="noise"></div>
         <div id="score">0</div>
         <div id="player"></div>
-        <div class="glitch-effect"></div>
+        <div class="glitch-effect">
+            <div class="glitch-text">KIAN'S SALVATION</div>
+        </div>
         <div id="start-screen">
-            <h1 id="title">Kian's Salvation</h1>
-            <h2 id="title">by abbas sadeghi</h2>
             <button id="start-btn">START</button>
+            
+            <div id="leaderboard">
+            <a id="access" href="terminal.html" target="_blank">
+                <div style="text-align: center; margin-bottom: 10px; font-size: 24px;">THAT WAS NOTHING. #RAHAEI</div>
+            </a>
+
+            </div>
+            <div id="music-control">
+                <div id="music-icon">♫</div>
+                <div id="music-title">CHANGE MUSIC</div>
+            </div>
+        </div>
+        <div id="game-over-screen">
+            <div style="color:#0f0; font-size:50px; text-shadow:0 0 10px #0f0;">GAME OVER</div>
+            <button id="back-btn">BACK</button>
         </div>
     </div>
 
-    <audio id="bg-music" loop>
+    <audio id="bg-music" loop preload="auto">
         <source src="assets/music.mp3" type="audio/mpeg">
     </audio>
-    <audio id="collect-sound">
+    <audio id="collect-sound" preload="auto">
         <source src="assets/glitch.wav" type="audio/mpeg">
     </audio>
-    <audio id="end-sound">
+    <audio id="end-sound" preload="auto">
         <source src="assets/bulb.wav" type="audio/mpeg">
     </audio>
 
-    <script src="script.js"></script>
+    <script src="sc2_script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </body>
+
 </html>
