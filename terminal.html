@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TERMINAL</title>
+    <style>
+        body {
+            background-color: black;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            padding: 10px;
+            line-height: 1.5;
+            margin: 0;
+            touch-action: manipulation;
+        }
+        
+        #terminal {
+            height: 350px;
+            margin-bottom: 10px;
+            overflow-y: auto;
+            border: 1px solid #00ff00;
+            padding: 10px;
+            word-break: break-all;
+        }
+        
+        #input-container {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            background-color: #111;
+        }
+        
+        #prompt {
+            margin-right: 10px;
+            white-space: nowrap;
+        }
+        
+        #user-input {
+            background-color: transparent;
+            border: none;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            width: 100%;
+            outline: none;
+            font-size: 16px;
+            padding: 5px;
+        }
+        
+        .correct {
+            color: #00ff00;
+        }
+        
+        .incorrect {
+            color: #ff0000;
+        }
+        
+        .system-message {
+            color: #00ffff;
+        }
+        
+        .sequence {
+            color: #ffff00;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .instruction {
+            color: #aaaaaa;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div id="terminal"></div>
+    <div id="input-container">
+        <span id="prompt">></span>
+        <input type="text" id="user-input" autofocus>
+    </div>
+
+    <script>
+        const terminal = document.getElementById('terminal');
+        const userInput = document.getElementById('user-input');
+        
+        const patterns = [
+            (n) => `${String.fromCharCode(65 + (n % 26))}${n + 1}`,
+            (n) => `${String.fromCharCode(90 - (n % 26))}${2*n + 1}`,
+            (n) => `${String.fromCharCode(65 + (2*(n % 13)))}${(n+1)*(n+1)}`,
+            
+            (function() {
+                let a = 1, b = 1;
+                return function(n) {
+                    const result = `${String.fromCharCode(65 + (n % 26))}${a}`;
+                    [a, b] = [b, a + b];
+                    return result;
+                };
+            })(),
+            
+            (function() {
+                const primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29];
+                return function(n) {
+                    return `${String.fromCharCode(65 + (n % 26))}${primes[n % primes.length]}`;
+                };
+            })()
+        ];
+        
+        let currentPattern;
+        let sequenceLength;
+        let currentSequence = [];
+        
+        function printToTerminal(text, className = '') {
+            const line = document.createElement('div');
+            if (className) line.className = className;
+            line.textContent = text;
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+        
+        function generateNewSequence() {
+            currentPattern = patterns[Math.floor(Math.random() * patterns.length)];
+            sequenceLength = 3 + Math.floor(Math.random() * 3);
+            currentSequence = [];
+            
+            for (let i = 0; i < sequenceLength; i++) {
+                currentSequence.push(currentPattern(i));
+            }
+            
+            printToTerminal('ALGORITHM: ', 'system-message');
+            printToTerminal(currentSequence.join(', ') + ', ?', 'sequence');
+            printToTerminal('WHAT IS THE NEXT? ', 'system-message');
+            
+            setTimeout(() => {
+                userInput.focus();
+            }, 100);
+        }
+        
+        function checkAnswer(answer) {
+            const correctAnswer = currentPattern(sequenceLength);
+            
+            printToTerminal(`> ${answer}`, 'system-message');
+            
+            if (answer.trim().toUpperCase() === correctAnswer) {
+                printToTerminal('✓ ACCESS GRANTED', 'correct');
+            } else {
+                printToTerminal(`✗ ACCESS DENIED - CORRECT IP : ${correctAnswer}`, 'incorrect');
+            }
+            
+            printToTerminal('------------------------', 'instruction');
+            
+            setTimeout(generateNewSequence, 1000);
+        }
+        
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const answer = userInput.value;
+                userInput.value = '';
+                checkAnswer(answer);
+            }
+        });
+        
+        userInput.addEventListener('blur', () => {
+            setTimeout(() => userInput.focus(), 100);
+        });
+        
+        printToTerminal('YOU HAVE TERMINAL ACCESS. ', 'system-message');
+        printToTerminal('#RAHAEI', 'instruction');
+        printToTerminal('------------------------', 'instruction');
+        generateNewSequence();
+    </script>
+</body>
+</html>
