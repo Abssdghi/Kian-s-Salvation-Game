@@ -1,7 +1,7 @@
 <img src="https://i.postimg.cc/Y9YVWjn3/ezgif-4c359db72bf8fc.gif"></img>
 
 # 🕹 Kian's Salvation game (Scavenger Hunt 2)
-🔗 [**Play Online**](https://ssas.sutech.ac.ir/game/)  
+🔗 [**Play Online**](https://abssdghi.github.io/Kian-s-Salvation-Game/)  
 
 A mini **HTML5, CSS, JS** game created for Shiraz University of Technology's **Scavenger Hunt 2** event (bahar 1404 - spring 2025). 
 All characters and **"Space" theme music** were designed by [me](https://github.com/Abssdghi)!  
